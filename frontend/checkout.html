@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — ShopSphere</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        Shop<span>Sphere</span>
+      </a>
+
+      <div class="nav-links">
+        <div id="user-nav-box" class="user-nav-box"></div>
+        <a href="cart.html" class="cart-btn" title="View Cart">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          <span id="cart-badge" class="cart-badge" style="display: none;">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <nav class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <a href="cart.html">Cart</a>
+        <span>/</span>
+        <span style="color: var(--gray-800); font-weight: 500;">Checkout</span>
+      </nav>
+      <h1 class="page-title">Order Checkout</h1>
+    </div>
+
+    <form id="checkout-form">
+      <div class="checkout-layout">
+        <!-- Left: Form Steps -->
+        <div>
+          <!-- Step 1: Customer & Shipping Details -->
+          <div class="checkout-card">
+            <div class="checkout-card-header">
+              <span class="step-num">1</span>
+              <span>Shipping & Contact Information</span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="customer-name" class="form-label">Full Name *</label>
+                <input type="text" id="customer-name" class="form-input" placeholder="e.g. John Doe" required />
+              </div>
+              <div class="form-group">
+                <label for="customer-email" class="form-label">Email Address *</label>
+                <input type="email" id="customer-email" class="form-input" placeholder="e.g. john@example.com" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="shipping-address" class="form-label">Street Address *</label>
+              <input type="text" id="shipping-address" class="form-input" placeholder="123 Market Street, Apt 4B" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city" class="form-label">City *</label>
+                <input type="text" id="city" class="form-input" placeholder="e.g. New York" required />
+              </div>
+              <div class="form-group">
+                <label for="postal-code" class="form-label">Postal / Zip Code *</label>
+                <input type="text" id="postal-code" class="form-input" placeholder="e.g. 10001" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Payment Method -->
+          <div class="checkout-card">
+            <div class="checkout-card-header">
+              <span class="step-num">2</span>
+              <span>Payment Method</span>
+            </div>
+
+            <div class="payment-methods">
+              <label class="payment-option selected">
+                <input type="radio" name="payment_method" value="Credit Card" checked />
+                <div class="payment-icon">💳</div>
+                <div class="payment-label">Credit / Debit Card</div>
+              </label>
+
+              <label class="payment-option">
+                <input type="radio" name="payment_method" value="UPI / Wallet" />
+                <div class="payment-icon">📱</div>
+                <div class="payment-label">UPI / Digital Wallet</div>
+              </label>
+
+              <label class="payment-option">
+                <input type="radio" name="payment_method" value="Cash on Delivery" />
+                <div class="payment-icon">💵</div>
+                <div class="payment-label">Cash on Delivery</div>
+              </label>
+            </div>
+
+            <!-- Card Simulation Fields -->
+            <div id="card-fields-box">
+              <div class="form-group">
+                <label class="form-label">Card Number</label>
+                <input type="text" class="form-input" placeholder="•••• •••• •••• 4242" value="4242 •••• •••• 4242" />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Expiration Date</label>
+                  <input type="text" class="form-input" placeholder="MM/YY" value="12/28" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CVV / CVC</label>
+                  <input type="password" class="form-input" placeholder="•••" value="888" maxlength="4" />
+                </div>
+              </div>
+            </div>
+
+            <p style="font-size: 0.82rem; color: var(--gray-500); display: flex; align-items: center; gap: 0.35rem; margin-top: 0.75rem;">
+              🔒 Payments are safe and processed through a simulated 256-bit secure gateway.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Order Summary Sidebar -->
+        <div class="summary-card">
+          <h3 class="summary-title">Review Order</h3>
+
+          <div id="checkout-items-summary">
+            <!-- Populated via checkout.js -->
+          </div>
+
+          <button type="submit" id="place-order-btn" class="btn btn-primary btn-block" style="padding: 1rem; font-size: 1.05rem; margin-top: 1.5rem;">
+            Place Order Now
+          </button>
+
+          <div style="font-size: 0.82rem; color: var(--gray-500); text-align: center; margin-top: 1rem;">
+            By completing your order, you agree to ShopSphere's Terms & Conditions.
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <!-- Order Success Modal -->
+  <div class="modal-overlay" id="order-modal-overlay">
+    <div class="modal-box">
+      <div class="modal-success-icon">✓</div>
+      <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--gray-900); margin-bottom: 0.5rem;">Order Placed Successfully!</h2>
+      <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Thank you for your purchase. We have received your order and are processing it for shipment.</p>
+
+      <div style="background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.75rem; text-align: left;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+          <span style="color: var(--gray-500);">Order Number:</span>
+          <strong id="modal-order-number" style="color: var(--primary);">ORD-000000</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+          <span style="color: var(--gray-500);">Amount Paid:</span>
+          <strong id="modal-order-total" style="color: var(--gray-900);">$0.00</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem;">
+        <a href="orders.html" class="btn btn-primary" style="flex: 1;">View My Orders</a>
+        <a href="index.html" class="btn btn-outline" style="flex: 1;">Shop More</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 ShopSphere Store. Built for CodeAlpha • <a href="https://www.codealpha.tech" target="_blank" style="color: var(--primary);">www.codealpha.tech</a></div>
+        <div>All transactions encrypted and verified.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

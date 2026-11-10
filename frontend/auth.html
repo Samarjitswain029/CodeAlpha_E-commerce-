@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In or Register — ShopSphere</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        Shop<span>Sphere</span>
+      </a>
+
+      <div class="nav-links">
+        <div id="user-nav-box" class="user-nav-box"></div>
+        <a href="cart.html" class="cart-btn" title="View Cart">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          <span id="cart-badge" class="cart-badge" style="display: none;">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="auth-wrapper">
+      <!-- Tabs Header -->
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="tab-login-btn">Sign In</button>
+        <button class="auth-tab-btn" id="tab-register-btn">Create Account</button>
+      </div>
+
+      <div class="auth-card-body">
+        <div id="auth-alert" class="auth-alert"></div>
+
+        <!-- Login Form -->
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-email" class="form-label">Email Address</label>
+            <input type="email" id="login-email" class="form-input" placeholder="name@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="login-password" class="form-label">Password</label>
+            <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" style="padding: 0.85rem; margin-top: 1.5rem;">
+            Sign In
+          </button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="register-form" style="display: none;">
+          <div class="form-group">
+            <label for="register-name" class="form-label">Full Name</label>
+            <input type="text" id="register-name" class="form-input" placeholder="e.g. Sarah Jenkins" required />
+          </div>
+
+          <div class="form-group">
+            <label for="register-email" class="form-label">Email Address</label>
+            <input type="email" id="register-email" class="form-input" placeholder="name@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="register-password" class="form-label">Create Password</label>
+            <input type="password" id="register-password" class="form-input" placeholder="Minimum 6 characters" minlength="6" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" style="padding: 0.85rem; margin-top: 1.5rem;">
+            Create My Account
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 ShopSphere Store. Built for CodeAlpha • <a href="https://www.codealpha.tech" target="_blank" style="color: var(--primary);">www.codealpha.tech</a></div>
+        <div>Fast & Secure User Authentication</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const tabLogin = document.getElementById('tab-login-btn');
+    const tabRegister = document.getElementById('tab-register-btn');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const authAlert = document.getElementById('auth-alert');
+
+    function showAlert(msg, isSuccess = false) {
+      authAlert.textContent = msg;
+      authAlert.className = `auth-alert show ${isSuccess ? 'auth-alert-success' : 'auth-alert-error'}`;
+    }
+
+    function clearAlert() {
+      authAlert.className = 'auth-alert';
+      authAlert.textContent = '';
+    }
+
+    tabLogin.addEventListener('click', () => {
+      tabLogin.classList.add('active');
+      tabRegister.classList.remove('active');
+      loginForm.style.display = 'block';
+      registerForm.style.display = 'none';
+      clearAlert();
+    });
+
+    tabRegister.addEventListener('click', () => {
+      tabRegister.classList.add('active');
+      tabLogin.classList.remove('active');
+      registerForm.style.display = 'block';
+      loginForm.style.display = 'none';
+      clearAlert();
+    });
+
+    // Check if query param specifies tab
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('mode') === 'register') {
+      tabRegister.click();
+    }
+
+    // Login Submission
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearAlert();
+
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      try {
+        const res = await API.login(email, password);
+        if (res.success && res.token) {
+          Auth.setAuth(res.user, res.token);
+          showAlert('Signed in successfully! Redirecting...', true);
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1000);
+        } else {
+          showAlert(res.message || 'Login failed. Please check credentials.');
+        }
+      } catch (err) {
+        showAlert('Could not reach backend server.');
+      }
+    });
+
+    // Register Submission
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearAlert();
+
+      const name = document.getElementById('register-name').value.trim();
+      const email = document.getElementById('register-email').value.trim();
+      const password = document.getElementById('register-password').value;
+
+      try {
+        const res = await API.register(name, email, password);
+        if (res.success && res.token) {
+          Auth.setAuth(res.user, res.token);
+          showAlert('Account registered successfully! Redirecting...', true);
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1000);
+        } else {
+          showAlert(res.message || 'Registration failed. Try again.');
+        }
+      } catch (err) {
+        showAlert('Could not reach backend server.');
+      }
+    });
+  </script>
+</body>
+</html>
